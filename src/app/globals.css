@@ -2,25 +2,132 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --foreground: #111111;
+  --pastel-blue: #F0F4FF;
+  --pastel-pink: #FFECEC;
+  --pastel-green: #E9FBEA;
+  --font-sans: 'InterVariable, NunitoVariable, Arial, sans-serif';
+  --font-mono: 'IBM Plex Mono Variable, monospace';
+  --border-radius-xl: 1.25rem;
+  --card-shadow: 0 4px 24px 0 rgba(80, 80, 120, 0.08);
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --danger: #ef4444;
+  --danger-bg: #fee2e2;
+  --success: #22c55e;
+  --success-bg: #dcfce7;
+  --warning: #facc15;
+  --warning-bg: #fef9c3;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #101014;
+    --foreground: #ffffff;
+    --pastel-blue: #23263a;
+    --pastel-pink: #3a2323;
+    --pastel-green: #233a2a;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  transition: background 0.3s, color 0.3s;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--foreground);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+input, select, textarea {
+  color: var(--foreground);
+  background: #f8fafc;
+  border: 1px solid #d1d5db;
+  border-radius: 0.75rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-hover);
+}
+
+button {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  border-radius: var(--border-radius-xl);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.1s;
+  outline: none;
+}
+button:focus {
+  box-shadow: 0 0 0 2px var(--primary-hover);
+}
+button:active {
+  transform: scale(0.97);
+}
+
+.card {
+  background: #fff;
+  border-radius: var(--border-radius-xl);
+  box-shadow: var(--card-shadow);
+  padding: 1.5rem;
+  transition: box-shadow 0.2s, transform 0.1s;
+}
+.card:hover {
+  box-shadow: 0 8px 32px 0 rgba(80, 80, 120, 0.16);
+  transform: translateY(-2px) scale(1.01);
+}
+
+.text-strong {
+  color: #111111;
+  font-weight: 700;
+}
+.text-muted {
+  color: #444;
+}
+
+.card, button, input, select, textarea, .text-strong {
+  color: #111 !important;
+}
+
+@media (max-width: 640px) {
+  html {
+    font-size: 15px;
+  }
+  .card {
+    padding: 1rem;
+  }
+}
+
+/* Animations */
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple 0.6s linear;
+  background: rgba(37, 99, 235, 0.3);
+  pointer-events: none;
+}
+
+/* Utility for dark mode toggle */
+.dark-mode {
+  --background: #101014;
+  --foreground: #f3f4f6;
+  --pastel-blue: #23263a;
+  --pastel-pink: #3a2323;
+  --pastel-green: #233a2a;
 }

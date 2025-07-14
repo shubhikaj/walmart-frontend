@@ -1,103 +1,115 @@
-import Image from "next/image";
+'use client';
+import React, { useState } from "react";
+import { Mail, Lock, Sun, Moon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
-export default function Home() {
+export default function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [dark, setDark] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (dark) {
+      document.documentElement.classList.add("dark-mode");
+    } else {
+      document.documentElement.classList.remove("dark-mode");
+    }
+  }, [dark]);
+
+  function handleLogin(e: React.FormEvent) {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      if (email === "ops@company.com" && password === "password") {
+        router.push("/dashboard");
+      } else {
+        setError("Invalid email or password");
+      }
+    }, 800);
+  }
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[var(--pastel-blue)] to-[var(--pastel-pink)] transition-colors duration-300">
+      <button
+        className="absolute top-4 right-4 p-2 rounded-full bg-white/80 shadow border border-gray-200 text-gray-700 hover:bg-[var(--pastel-blue)]"
+        onClick={() => setDark(d => !d)}
+        aria-label="Toggle dark mode"
+      >
+        {dark ? <Sun /> : <Moon />}
+      </button>
+      <div className="flex flex-col md:flex-row bg-white rounded-2xl shadow-xl overflow-hidden max-w-3xl w-full animate-fade-in">
+        {/* Left section: Logo/Illustration */}
+        <div className="hidden md:flex flex-col items-center justify-center bg-[var(--pastel-blue)] px-10 py-12">
+          <div className="text-3xl font-bold mb-4 text-[var(--primary)]">Welcome to OpsCenter</div>
+          {/* Optionally add an illustration or logo here */}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        {/* Right section: Login Card */}
+        <div className="flex-1 flex flex-col justify-center px-8 py-12">
+          <div className="mb-6">
+            <h1 className="text-2xl font-bold mb-2 text-[var(--foreground)]">Sign in</h1>
+            <p className="text-gray-700 text-sm">Your command center. Sign in to monitor and manage.</p>
+          </div>
+          <form className={`flex flex-col gap-4 ${error ? 'animate-shake' : ''}`} onSubmit={handleLogin}>
+            <label className="flex flex-col gap-1">
+              <span className="text-sm font-semibold text-[var(--foreground)]">Email</span>
+              <div className="flex items-center border rounded-lg px-3 py-2 bg-gray-50 focus-within:ring-2 ring-blue-200">
+                <Mail className="w-4 h-4 text-gray-400 mr-2" />
+                <input
+                  type="email"
+                  placeholder="you@company.com"
+                  className="bg-transparent outline-none flex-1 text-[var(--foreground)]"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+            </label>
+            <label className="flex flex-col gap-1">
+              <span className="text-sm font-semibold text-[var(--foreground)]">Password</span>
+              <div className="flex items-center border rounded-lg px-3 py-2 bg-gray-50 focus-within:ring-2 ring-blue-200">
+                <Lock className="w-4 h-4 text-gray-400 mr-2" />
+                <input
+                  type="password"
+                  placeholder="••••••••"
+                  className="bg-transparent outline-none flex-1 text-[var(--foreground)]"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+            </label>
+            <button
+              type="submit"
+              className="mt-4 bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white font-semibold rounded-xl py-2 transition-colors shadow-md relative overflow-hidden focus:outline-none"
+              style={{ boxShadow: 'var(--card-shadow)', borderRadius: 'var(--border-radius-xl)' }}
+              disabled={loading}
+            >
+              {loading ? <span className="animate-pulse">Signing in…</span> : "Login"}
+            </button>
+            {error && <div className="text-red-600 text-sm text-center animate-fade-in">{error}</div>}
+          </form>
+          <div className="mt-4 text-center">
+            <button
+              type="button"
+              className="text-[var(--primary)] hover:underline text-sm font-semibold"
+              onClick={() => router.push("/dashboard")}
+            >
+              Continue without login
+            </button>
+          </div>
+        </div>
+      </div>
+      <style jsx global>{`
+        @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+        .animate-fade-in { animation: fade-in 0.7s; }
+        @keyframes shake { 10%, 90% { transform: translateX(-2px); } 20%, 80% { transform: translateX(4px); } 30%, 50%, 70% { transform: translateX(-8px); } 40%, 60% { transform: translateX(8px); } }
+        .animate-shake { animation: shake 0.4s; }
+      `}</style>
     </div>
   );
 }
