@@ -10,6 +10,12 @@ const stores: Store[] = [
   { id: "store-1", name: "Walmart Supercenter #1" },
   { id: "store-2", name: "Walmart Neighborhood Market #2" },
   { id: "store-3", name: "Walmart Express #3" },
+  { id: "store-4", name: "Walmart Hypermart #4" },
+  { id: "store-5", name: "Walmart City Center #5" },
+  { id: "store-6", name: "Walmart Local #6" },
+  { id: "store-7", name: "Walmart Plaza #7" },
+  { id: "store-8", name: "Walmart Mart #8" },
+  { id: "store-9", name: "Walmart Hub #9" },
 ];
 
 const camerasByStore: { [key: string]: Camera[] } = {
@@ -24,6 +30,24 @@ const camerasByStore: { [key: string]: Camera[] } = {
   "store-3": [
     { id: "cam-5", name: "Main Hall Camera" },
   ],
+  "store-4": [
+    { id: "cam-6", name: "Bakery Camera" },
+  ],
+  "store-5": [
+    { id: "cam-7", name: "Dairy Camera" },
+  ],
+  "store-6": [
+    { id: "cam-8", name: "Frozen Foods Camera" },
+  ],
+  "store-7": [
+    { id: "cam-9", name: "Pharmacy Camera" },
+  ],
+  "store-8": [
+    { id: "cam-10", name: "Electronics Camera" },
+  ],
+  "store-9": [
+    { id: "cam-11", name: "Garden Camera" },
+  ],
 };
 
 const shelvesByCamera: { [key: string]: string[] } = {
@@ -32,6 +56,12 @@ const shelvesByCamera: { [key: string]: string[] } = {
   "cam-3": ["Shelf C1", "Shelf C2"],
   "cam-4": ["Shelf D1"],
   "cam-5": ["Shelf E1", "Shelf E2", "Shelf E3"],
+  "cam-6": ["Shelf F1"],
+  "cam-7": ["Shelf G1"],
+  "cam-8": ["Shelf H1"],
+  "cam-9": ["Shelf I1"],
+  "cam-10": ["Shelf J1"],
+  "cam-11": ["Shelf K1"],
 };
 
 const shelfDetails: { [key: string]: ShelfDetail[] } = {
@@ -63,6 +93,24 @@ const shelfDetails: { [key: string]: ShelfDetail[] } = {
   "Shelf E3": [
     { product: "Juice", percent: 60, image: "/mock/juice.jpg" },
   ],
+  "Shelf F1": [
+    { product: "Cake", percent: 75, image: "/mock/cake.jpg" },
+  ],
+  "Shelf G1": [
+    { product: "Cheese", percent: 55, image: "/mock/cheese.jpg" },
+  ],
+  "Shelf H1": [
+    { product: "Ice Cream", percent: 40, image: "/mock/icecream.jpg" },
+  ],
+  "Shelf I1": [
+    { product: "Medicine", percent: 90, image: "/mock/medicine.jpg" },
+  ],
+  "Shelf J1": [
+    { product: "TV", percent: 20, image: "/mock/tv.jpg" },
+  ],
+  "Shelf K1": [
+    { product: "Plants", percent: 80, image: "/mock/plants.jpg" },
+  ],
 };
 
 export default function VisionInspectorPage() {
@@ -76,89 +124,156 @@ export default function VisionInspectorPage() {
       <h1 className="text-3xl md:text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-green-600">Vision Inspector</h1>
       <p className="text-gray-300 mb-8">Select a store, camera, and shelf to view product availability and the latest shelf image.</p>
 
-      {/* Store Selection */}
-      <div className="mb-6">
-        <label className="block text-gray-400 mb-2 font-semibold">Select Store</label>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {stores.map((store) => (
-            <button
-              key={store.id}
-              className={`bg-[#1e293b]/80 border border-[#334155] rounded-xl p-4 text-white font-medium shadow hover:shadow-lg transition backdrop-blur-md ${selectedStore === store.id ? "ring-2 ring-green-500" : ""}`}
-              onClick={() => {
-                setSelectedStore(store.id);
-                setSelectedCamera(null);
-                setSelectedShelf(null);
-                setShowImage(null);
-              }}
-            >
-              {store.name}
-            </button>
-          ))}
+      {/* Store Selection Table */}
+      {!selectedStore && (
+        <div className="mb-6 overflow-x-auto">
+          <label className="block text-gray-400 mb-2 font-semibold">Select Store</label>
+          <table className="min-w-full text-left border-separate border-spacing-y-2">
+            <thead>
+              <tr>
+                <th className="px-4 py-2 text-gray-400 font-semibold">Store Name</th>
+                <th className="px-4 py-2 text-gray-400 font-semibold">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {stores.map((store) => (
+                <tr key={store.id} className="bg-[#334155]/60 rounded-xl">
+                  <td className="px-4 py-3 font-bold text-white text-lg rounded-l-xl">{store.name}</td>
+                  <td className="px-4 py-3 rounded-r-xl">
+                    <button
+                      className="bg-green-700 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold shadow"
+                      onClick={() => {
+                        setSelectedStore(store.id);
+                        setSelectedCamera(null);
+                        setSelectedShelf(null);
+                        setShowImage(null);
+                      }}
+                    >
+                      Select
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      </div>
+      )}
 
-      {/* Camera Selection */}
-      {selectedStore && (
-        <div className="mb-6">
+      {/* Camera Selection Table */}
+      {selectedStore && !selectedCamera && (
+        <div className="mb-6 overflow-x-auto">
+          <button
+            className="mb-4 flex items-center gap-2 bg-green-800 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold shadow transition"
+            onClick={() => setSelectedStore(null)}
+          >
+            <span className="text-lg">&#8592;</span> Back to Stores
+          </button>
           <label className="block text-gray-400 mb-2 font-semibold">Select Camera</label>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {(camerasByStore[selectedStore] || []).map((cam: Camera) => (
-              <button
-                key={cam.id}
-                className={`bg-[#1e293b]/80 border border-[#334155] rounded-xl p-4 text-white font-medium shadow hover:shadow-lg transition backdrop-blur-md ${selectedCamera === cam.id ? "ring-2 ring-green-500" : ""}`}
-                onClick={() => {
-                  setSelectedCamera(cam.id);
-                  setSelectedShelf(null);
-                  setShowImage(null);
-                }}
-              >
-                {cam.name}
-              </button>
-            ))}
-          </div>
+          <table className="min-w-full text-left border-separate border-spacing-y-2">
+            <thead>
+              <tr>
+                <th className="px-4 py-2 text-gray-400 font-semibold">Camera Name</th>
+                <th className="px-4 py-2 text-gray-400 font-semibold">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {(camerasByStore[selectedStore] || []).map((cam: Camera) => (
+                <tr key={cam.id} className="bg-[#334155]/60 rounded-xl">
+                  <td className="px-4 py-3 font-bold text-white text-lg rounded-l-xl">{cam.name}</td>
+                  <td className="px-4 py-3 rounded-r-xl">
+                    <button
+                      className="bg-green-700 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold shadow"
+                      onClick={() => {
+                        setSelectedCamera(cam.id);
+                        setSelectedShelf(null);
+                        setShowImage(null);
+                      }}
+                    >
+                      Select
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
 
-      {/* Shelf Selection */}
-      {selectedCamera && (
-        <div className="mb-6">
+      {/* Shelf Selection Table */}
+      {selectedCamera && !selectedShelf && (
+        <div className="mb-6 overflow-x-auto">
+          <button
+            className="mb-4 flex items-center gap-2 bg-green-800 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold shadow transition"
+            onClick={() => setSelectedCamera(null)}
+          >
+            <span className="text-lg">&#8592;</span> Back to Cameras
+          </button>
           <label className="block text-gray-400 mb-2 font-semibold">Select Shelf</label>
-          <div className="flex flex-wrap gap-4">
-            {(shelvesByCamera[selectedCamera] || []).map((shelf: string) => (
-              <button
-                key={shelf}
-                className={`bg-[#1e293b]/80 border border-[#334155] rounded-xl p-3 text-white font-medium shadow hover:shadow-lg transition backdrop-blur-md ${selectedShelf === shelf ? "ring-2 ring-green-500" : ""}`}
-                onClick={() => {
-                  setSelectedShelf(shelf);
-                  setShowImage(null);
-                }}
-              >
-                {shelf}
-              </button>
-            ))}
-          </div>
+          <table className="min-w-full text-left border-separate border-spacing-y-2">
+            <thead>
+              <tr>
+                <th className="px-4 py-2 text-gray-400 font-semibold">Shelf ID</th>
+                <th className="px-4 py-2 text-gray-400 font-semibold">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {(shelvesByCamera[selectedCamera] || []).map((shelf: string) => (
+                <tr key={shelf} className="bg-[#334155]/60 rounded-xl">
+                  <td className="px-4 py-3 font-bold text-white text-lg rounded-l-xl">{shelf}</td>
+                  <td className="px-4 py-3 rounded-r-xl">
+                    <button
+                      className="bg-green-700 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold shadow"
+                      onClick={() => {
+                        setSelectedShelf(shelf);
+                        setShowImage(null);
+                      }}
+                    >
+                      Select
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
 
-      {/* Shelf Details */}
+      {/* Shelf Details Table (already table) */}
       {selectedShelf && (
         <div className="bg-[#1e293b]/80 border border-[#334155] rounded-2xl shadow-lg p-6 backdrop-blur-md mt-6">
+          <button
+            className="mb-4 flex items-center gap-2 bg-green-800 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold shadow transition"
+            onClick={() => setSelectedShelf(null)}
+          >
+            <span className="text-lg">&#8592;</span> Back to Shelves
+          </button>
           <h2 className="text-xl font-semibold mb-4 text-white">Products on {selectedShelf}</h2>
-          <div className="space-y-4">
-            {(shelfDetails[selectedShelf] || []).map((item: ShelfDetail, idx: number) => (
-              <div key={item.product} className="flex items-center justify-between bg-[#334155]/60 rounded-lg p-4">
-                <div>
-                  <div className="font-bold text-white text-lg">{item.product}</div>
-                  <div className="text-green-400 font-mono text-base">{item.percent}% available</div>
-                </div>
-                <button
-                  className="bg-green-700 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold shadow"
-                  onClick={() => setShowImage(idx)}
-                >
-                  View Image
-                </button>
-              </div>
-            ))}
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-left border-separate border-spacing-y-2">
+              <thead>
+                <tr>
+                  <th className="px-4 py-2 text-gray-400 font-semibold">Product</th>
+                  <th className="px-4 py-2 text-gray-400 font-semibold">% Available</th>
+                  <th className="px-4 py-2 text-gray-400 font-semibold">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {(shelfDetails[selectedShelf] || []).map((item: ShelfDetail, idx: number) => (
+                  <tr key={item.product} className="bg-[#334155]/60 rounded-xl">
+                    <td className="px-4 py-3 font-bold text-white text-lg rounded-l-xl">{item.product}</td>
+                    <td className="px-4 py-3 text-green-400 font-mono text-base">{item.percent}%</td>
+                    <td className="px-4 py-3 rounded-r-xl">
+                      <button
+                        className="bg-green-700 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold shadow"
+                        onClick={() => setShowImage(idx)}
+                      >
+                        View Image
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
           {/* Show image modal or inline */}
           {showImage !== null && (
