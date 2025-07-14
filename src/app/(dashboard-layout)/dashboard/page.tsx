@@ -43,40 +43,53 @@ export default function DashboardPage() {
   }
 
   return (
-    <>
-      {/* Current Filters */}
-      <div className="px-2 sm:px-8 pt-6 pb-2 text-[var(--foreground)] text-sm font-semibold flex gap-4 items-center">
-        <span>Time Range: <span className="font-bold">{timeRange}</span></span>
-        <span>Store Group: <span className="font-bold">{storeGroup}</span></span>
+    <div className="flex flex-col items-center w-full min-h-screen pt-16">
+      {/* Hero section */}
+      <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
+        <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-green-600">Walmart Logistics Operations Dashboard</h1>
+        <p className="text-lg md:text-xl text-gray-300 max-w-2xl mb-8">A modern, glassy dashboard for managing logistics, agent feeds, vision insights, and more.</p>
       </div>
-      {/* Status Cards */}
-      <section className="flex gap-4 px-2 sm:px-8 py-6 overflow-x-auto scrollbar-thin scrollbar-thumb-blue-200">
-        {statusCards.map((card: CardType, i: number) => (
-          <button
-            key={i}
-            className={`card min-w-[200px] flex flex-col items-start ${card.color} focus:outline-none focus:ring-2 focus:ring-[var(--primary)] transition-transform hover:scale-105`}
-            style={{ boxShadow: 'var(--card-shadow)' }}
-            onClick={() => scrollToSection(card.section)}
-            aria-label={`Go to ${card.label}`}
-          >
-            <div className="text-2xl mb-2">{card.icon}</div>
-            <div className="font-bold text-lg mb-1 text-[#111]">{card.label}</div>
-            <div className="text-[#111] text-sm font-semibold">{card.value}</div>
-          </button>
-        ))}
-      </section>
-      {/* Inventory Heatmap/Table Placeholder */}
-      <section ref={heatmapRef} className="px-2 sm:px-8 py-4">
-        <div className="card bg-white min-h-[200px] mb-6 flex flex-col items-center justify-center">
-          <div className="font-mono text-[#111] text-center">[Inventory Heatmap/Table Placeholder for <b>{timeRange}</b> in <b>{storeGroup}</b>]</div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto pb-16">
+        {/* Agent Feed Card */}
+        <div className="bg-[#1e293b]/80 border border-[#334155] rounded-2xl shadow-lg p-6 backdrop-blur-md hover:shadow-2xl transition">
+          <h2 className="text-xl font-semibold mb-2 text-white">Agent Feed</h2>
+          <p className="text-gray-300 mb-4">Monitor real-time updates from field agents, track activities, and stay informed about on-ground operations.</p>
         </div>
-      </section>
-      {/* Agent Feed Placeholder */}
-      <section ref={agentFeedRef} className="px-2 sm:px-8 pb-8">
-        <div className="card bg-white min-h-[120px] flex flex-col items-center justify-center">
-          <div className="font-mono text-[#111] text-center">[Embedded Agent Feed Placeholder for <b>{timeRange}</b> in <b>{storeGroup}</b>]</div>
+        {/* Vision Inspector Card */}
+        <div className="bg-[#1e293b]/80 border border-[#334155] rounded-2xl shadow-lg p-6 backdrop-blur-md hover:shadow-2xl transition">
+          <h2 className="text-xl font-semibold mb-2 text-white">Vision Inspector</h2>
+          <p className="text-gray-300 mb-4">Analyze shelf stock, product availability, and get visual insights from in-store cameras using AI-powered vision tools.</p>
         </div>
-      </section>
-    </>
+        {/* Alerts Card */}
+        <div className="bg-[#1e293b]/80 border border-[#334155] rounded-2xl shadow-lg p-6 backdrop-blur-md hover:shadow-2xl transition">
+          <h2 className="text-xl font-semibold mb-2 text-white">Alerts & Notifications</h2>
+          <p className="text-gray-300 mb-4">Receive instant alerts for low stock, anomalies, or urgent issues. Stay proactive with real-time notifications.</p>
+        </div>
+      </div>
+
+      <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 pb-16">
+        {/* Chat Card */}
+        <div className="bg-[#1e293b]/80 border border-[#334155] rounded-2xl shadow-lg p-6 backdrop-blur-md hover:shadow-2xl transition">
+          <h2 className="text-xl font-semibold mb-2 text-white">Chat</h2>
+          <p className="text-gray-300 mb-4">Communicate with team members, agents, and support directly from the dashboard.</p>
+        </div>
+        {/* Store & Routes Card */}
+        <div className="bg-[#1e293b]/80 border border-[#334155] rounded-2xl shadow-lg p-6 backdrop-blur-md hover:shadow-2xl transition">
+          <h2 className="text-xl font-semibold mb-2 text-white">Store & Routes</h2>
+          <p className="text-gray-300 mb-4">Manage store locations, optimize delivery routes, and monitor logistics performance.</p>
+        </div>
+      </div>
+      <footer className="w-full border-t border-[#334155] bg-[#0f172a]/80 backdrop-blur-md py-8 mt-12">
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between px-4 gap-4">
+          <div className="text-gray-400 text-sm">&copy; {new Date().getFullYear()} Walmart Logistics Ops. All rights reserved.</div>
+          <div className="flex gap-6 text-gray-400 text-sm">
+            <a href="/privacy" className="hover:text-green-400 transition">Privacy Policy</a>
+            <a href="/terms" className="hover:text-green-400 transition">Terms of Service</a>
+            <a href="mailto:support@walmartops.com" className="hover:text-green-400 transition">Contact</a>
+          </div>
+        </div>
+      </footer>
+    </div>
   );
 } 

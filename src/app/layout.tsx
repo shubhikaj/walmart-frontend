@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import "@fontsource/inter/index.css";
-import "@fontsource/nunito/index.css";
-import "@fontsource/ibm-plex-mono/index.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -15,11 +13,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" style={{ background: 'linear-gradient(135deg, var(--pastel-blue), var(--pastel-pink))', minHeight: '100vh' }}>
+    <html lang="en" style={{ background: 'var(--background)', minHeight: '100vh' }}>
       <body
         className="antialiased"
         style={{
-          fontFamily: 'InterVariable, NunitoVariable, IBM Plex Mono Variable, Arial, sans-serif',
+          fontFamily: 'Inter, Arial, sans-serif',
         }}
       >
         {children}

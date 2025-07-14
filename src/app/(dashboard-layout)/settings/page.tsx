@@ -12,8 +12,12 @@ export default function SettingsPage() {
     setTimeout(() => setShowConfetti(false), 1200);
   }
   return (
-    <div className="min-h-screen flex flex-col items-center bg-[var(--pastel-blue)]/40 py-8 px-2">
-      <div className="max-w-2xl w-full bg-white rounded-xl shadow p-8 flex flex-col md:flex-row gap-8" style={{ boxShadow: 'var(--card-shadow)' }}>
+    <div className="flex flex-col items-center w-full min-h-screen pt-16">
+      <div className="text-center mb-12">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-[var(--foreground-strong)] mb-4">Settings</h1>
+        <p className="text-lg md:text-xl text-[var(--foreground)] mb-8 max-w-2xl mx-auto">Manage your profile, role, theme, and notification preferences. Styled like a Linear settings panel.</p>
+      </div>
+      <div className="bg-[var(--panel)] rounded-lg shadow-lg p-8 w-full max-w-2xl flex flex-col items-center mb-24">
         {/* Profile Picture/Role */}
         <div className="flex flex-col items-center gap-4 md:w-1/3">
           <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-4xl">👤</div>

@@ -1,53 +1,46 @@
+"use client";
 import React from "react";
 
-const timeline = [
-  { time: "10:00 AM", event: "Flood detected" },
-  { time: "10:02 AM", event: "Route changed" },
-];
+const route = {
+  id: "route-123",
+  name: "Morning Delivery Run",
+  status: "In Progress",
+  stops: [
+    { id: 1, name: "Warehouse", status: "Departed", icon: "🚚" },
+    { id: 2, name: "Store #1", status: "Delivered", icon: "🏬" },
+    { id: 3, name: "Store #2", status: "Pending", icon: "🏬" },
+    { id: 4, name: "Store #3", status: "Pending", icon: "🏬" },
+  ],
+};
+
+const statusColors = {
+  "Departed": "bg-blue-700 text-blue-200",
+  "Delivered": "bg-green-700 text-green-200",
+  "Pending": "bg-yellow-700 text-yellow-200"
+};
 
 export default function RoutesPage() {
   return (
-    <div className="min-h-screen flex flex-col items-center bg-[var(--pastel-blue)]/40 py-8 px-2">
-      <div className="max-w-4xl w-full flex flex-col gap-8">
-        <h1 className="text-2xl font-semibold mb-2 text-[var(--foreground)]">Route Visualization (Logistics Map)</h1>
-        <div className="flex flex-col md:flex-row gap-8">
-          {/* Map mockup */}
-          <div className="flex-1 bg-[var(--pastel-blue)] rounded-xl shadow p-4 flex flex-col items-center" style={{ boxShadow: 'var(--card-shadow)' }}>
-            <div className="w-full h-64 flex items-center justify-center relative">
-              {/* SVG mock map */}
-              <svg width="320" height="180" className="rounded-lg">
-                {/* Before Disruption */}
-                <polyline points="30,150 80,100 150,80 250,60" fill="none" stroke="#7dafff" strokeWidth="6" />
-                {/* After Reroute */}
-                <polyline points="30,150 80,100 120,120 200,100 250,60" fill="none" stroke="#0057b8" strokeWidth="6" strokeDasharray="8 4" />
-                {/* Checkpoints */}
-                <circle cx="30" cy="150" r="7" fill="#0057b8">
-                  <title>Checkpoint FC3 → Store 14</title>
-                </circle>
-                <circle cx="250" cy="60" r="7" fill="#0057b8">
-                  <title>Checkpoint Store 14</title>
-                </circle>
-              </svg>
-              <div className="absolute top-2 left-2 bg-white rounded px-2 py-1 text-xs shadow text-[var(--foreground)]">Before Disruption</div>
-              <div className="absolute bottom-2 right-2 bg-blue-700 text-white rounded px-2 py-1 text-xs shadow">After Rebalancer Reroute</div>
-            </div>
-            <div className="mt-4 flex gap-4 text-xs">
-              <span className="bg-gray-200 rounded px-2 py-1 text-[var(--foreground)]">Legend: <span className="text-blue-700">Reroute</span> <span className="text-[#7dafff]">Original</span></span>
-              <span className="bg-gray-200 rounded px-2 py-1 text-[var(--foreground)]">Show: <span className="text-blue-700">Flood-affected zones only</span></span>
-            </div>
-          </div>
-          {/* Timeline */}
-          <div className="flex-1 flex flex-col gap-2">
-            <div className="bg-white rounded-xl shadow p-4" style={{ boxShadow: 'var(--card-shadow)' }}>
-              <div className="font-semibold mb-2 text-[#111]">Timeline</div>
-              <ul>
-                {timeline.map((item, i) => (
-                  <li key={i} className="mb-1 text-[#111]"><span className="font-mono text-blue-700">{item.time}:</span> {item.event}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
+    <div className="max-w-2xl mx-auto py-12 px-4">
+      <h1 className="text-3xl md:text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-green-600">Route Visualizer</h1>
+      <div className="bg-[#1e293b]/80 border border-[#334155] rounded-2xl shadow-lg p-6 backdrop-blur-md mb-8">
+        <div className="flex items-center justify-between mb-2">
+          <div className="font-bold text-white text-lg">{route.name}</div>
+          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-green-700 text-green-200">{route.status}</span>
         </div>
+        <div className="text-gray-300 text-sm">Route ID: {route.id}</div>
+      </div>
+      <div className="space-y-4">
+        {route.stops.map((stop) => (
+          <div key={stop.id} className="flex items-center gap-4 bg-[#334155]/60 border border-[#334155] rounded-xl p-4 shadow hover:shadow-lg transition">
+            <span className="text-2xl">{stop.icon}</span>
+            <div className="flex-1">
+              <div className="font-bold text-white">{stop.name}</div>
+              <div className="text-gray-400 text-xs">Stop #{stop.id}</div>
+            </div>
+            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${statusColors[stop.status as keyof typeof statusColors]}`}>{stop.status}</span>
+          </div>
+        ))}
       </div>
     </div>
   );

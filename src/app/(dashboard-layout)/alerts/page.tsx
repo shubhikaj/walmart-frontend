@@ -15,35 +15,38 @@ export default function AlertsPage() {
   const filtered = filter === "All" ? alerts : alerts.filter(a => a.severity === filter);
 
   return (
-    <div className="min-h-screen bg-[var(--pastel-blue)]/40 flex flex-col items-center py-8 px-2">
-      <div className="max-w-2xl w-full">
-        <div className="mb-6 flex gap-2 flex-wrap">
-          {["All", "Critical", "Moderate", "Resolved"].map(f => (
-            <button
-              key={f}
-              className={`px-4 py-2 rounded-xl font-semibold shadow transition-colors ${filter === f ? 'bg-[var(--primary)] text-white' : 'bg-white text-[#222] hover:bg-[var(--pastel-blue)]'}`}
-              onClick={() => setFilter(f)}
-            >
-              {f}
-              {f === "Critical" && alerts.some(a => a.severity === "Critical") && (
-                <span className="ml-2 inline-block w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-              )}
-            </button>
-          ))}
-        </div>
-        <div className="flex flex-col gap-4">
-          {filtered.map((alert, i) => (
-            <div key={i} className="card flex items-center gap-4 bg-white" style={{ boxShadow: 'var(--card-shadow)' }}>
-              <span className="text-2xl" aria-label="alert-icon">{alert.icon}</span>
-              <div className="flex-1">
-                <div className="text-[#222] font-semibold">{alert.summary}</div>
-                <div className="text-xs text-[#222] mt-1">{alert.time} • {alert.agent}</div>
+    <div className="flex flex-col items-center w-full min-h-screen pt-16">
+      <div className="text-center mb-12">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-[var(--foreground-strong)] mb-4">Notification Center</h1>
+        <p className="text-lg md:text-xl text-[var(--foreground)] mb-8 max-w-2xl mx-auto">See all triggered alerts, filter by type, agent, store, or status. Color tags indicate severity.</p>
+      </div>
+      <div className="mb-8 flex gap-2 flex-wrap justify-center">
+        {["All", "Critical", "Moderate", "Resolved"].map(f => (
+          <button
+            key={f}
+            className={`px-4 py-2 rounded-full font-semibold shadow-sm border border-[#334155] text-sm transition-colors ${filter === f ? 'bg-[var(--primary)] text-white' : 'bg-[#23293a] text-[var(--foreground)] hover:bg-[var(--primary)]/10'}`}
+            onClick={() => setFilter(f)}
+          >
+            {f}
+          </button>
+        ))}
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-5xl mb-24">
+        {filtered.length === 0 ? (
+          <div className="col-span-full text-muted text-center py-12">No alerts in this category.</div>
+        ) : (
+          filtered.map((alert, i) => (
+            <div key={i} className="bg-[#23293a] border border-[#334155] rounded-xl shadow-sm p-6 flex flex-col gap-2 hover:shadow-lg hover:border-[var(--primary)] transition-all">
+              <div className="flex items-center gap-2 mb-1">
+                <span className={`inline-block w-2 h-2 rounded-full ${alert.severity === 'Critical' ? 'bg-red-500' : alert.severity === 'Moderate' ? 'bg-yellow-400' : alert.severity === 'Resolved' ? 'bg-green-500' : 'bg-blue-500'}`}></span>
+                <span className="font-bold text-[var(--foreground-strong)] text-base">{alert.severity}</span>
+                <span className="ml-auto px-2 py-0.5 rounded-full text-xs font-semibold bg-[#1e293b] text-[var(--foreground)] border border-[#334155]">{alert.severity}</span>
               </div>
-              <span className={`text-xs font-bold px-3 py-1 rounded-xl ${alert.severity === 'Critical' ? 'bg-red-100 text-red-700' : alert.severity === 'Moderate' ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'}`}>{alert.severity}</span>
+              <div className="text-[var(--foreground)] font-semibold">{alert.summary}</div>
+              <div className="text-muted text-xs">{alert.agent} • {alert.time}</div>
             </div>
-          ))}
-          {filtered.length === 0 && <div className="text-center text-[#222]">No alerts in this category.</div>}
-        </div>
+          ))
+        )}
       </div>
     </div>
   );
